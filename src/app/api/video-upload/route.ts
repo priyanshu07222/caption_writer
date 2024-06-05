@@ -34,9 +34,7 @@ export async function POST(req: NextRequest) {
     // STEP 4: Print the results
     const text = result.results.channels[0].alternatives[0].transcript
     if (!error)
-      console.dir(text, {
-        depth: null,
-      });
+      console.log(text)
 
     return Response.json({
       message: "successfully done hoga",
