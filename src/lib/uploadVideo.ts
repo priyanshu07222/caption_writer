@@ -17,6 +17,7 @@ export const uploadOnCloudinary = async (file: File) => {
      (error, result) => {
        if (error) reject(error.message);
        resolve(result)
+       console.log(result)
      }).end(buffer);
     })
 }

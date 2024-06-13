@@ -32,13 +32,18 @@ export async function POST(req: NextRequest) {
 
     if (error) throw error;
     // STEP 4: Print the results
+    // const wordsArray = result.results.channels[0].alternatives[0].words
+    // const para = result.results.channels[0].alternatives[0].paragraphs
     const text = result.results.channels[0].alternatives[0].transcript
     if (!error)
       console.log(text)
+      // console.log(para)
+
 
     return Response.json({
       message: "successfully done hoga",
-      text
+      text,
+      url
     });
   } catch (error: any) {
     console.log("Error is happening", error);

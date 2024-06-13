@@ -5,6 +5,7 @@ import { TargetLanguageCode } from "deepl-node";
 
 const authKey = process.env.DEEPL_API_KEY || "";
 const translator = new deepl.Translator(authKey);
+const supportedLangArray = ["ar", "bg", "cs", "da", "de","el", "en-GB","en-US", "es","et", "fi", "fr", "hu","id", "it", "ja","ko", "lt", "lv", "nb","nl",  "pl", "pt-Br","pt-PT", "ro", "ru", "sl", "sv", "tr", "uk", "zh"];
 
 export async function POST(req: NextRequest) {
   const response = await req.formData();
@@ -14,7 +15,7 @@ export async function POST(req: NextRequest) {
   function isValidLanguageCode(
     code: any
   ): code is TargetLanguageCode {
-    return ["fr", "de"].includes(code);
+    return supportedLangArray.includes(code);
   };
 
   try {
