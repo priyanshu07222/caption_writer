@@ -8,6 +8,7 @@ cloudinary.config({
 });
 
 export const uploadOnCloudinary = async (file: File) => {
+  console.log("here in the uploadOnCloudinary fn", file)
   const arrayBuffer = await file.arrayBuffer();
   const buffer = Buffer.from(arrayBuffer);
    return new Promise(async (resolve, reject) => {

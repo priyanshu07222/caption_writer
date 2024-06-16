@@ -13,7 +13,9 @@ export async function POST(req: NextRequest) {
   await dbConnect();
   try {
     const res = await req.formData();
-    const videoUrl = res.get("video_url") as File;
+    console.log(res)
+    const videoUrl = res.get("url") as File;
+    console.log(videoUrl)
     const {url} = await uploadOnCloudinary(videoUrl) as Response
   
 
