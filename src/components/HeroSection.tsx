@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import axios from "axios";
 
@@ -9,18 +9,21 @@ import axios from "axios";
 function HeroSection() {
   // const {register, handleSubmit} = useForm()
   const [url, setUrl] = useState<string>('');
+  const fileInputRef = useRef<HTMLInputElement>(null)
 
   const handleChange = (e:any) => {
     e.preventDefault();
-    setUrl(e.target.value)
+    const file = e.target.files[0]
+    setUrl(file)
   }
 
   const handleSubmit = async (e:any) => {
     e.preventDefault()
+    console.log(url)
 
     try {
       const formData = new FormData();
-      formData.append('file', url);
+      formData.append('url', url);
 
       const response = await axios.post('/api/video-upload', formData, {
         headers: {
@@ -28,21 +31,16 @@ function HeroSection() {
         },
       });
       console.log('Response:', response.data);
+      console.log('Text:', response.data.text);
+      console.log('URL:', response.data.url);
     } catch (error) {
       console.error('Error uploading file URL:', error);
     }
-  }
-   
 
-  //   await axios.post('http://localhost:3000/api/video-upload', url)
-  //   .then(res => {
-  //     console.log("res",res.data)
-  //   })
-  //   .catch(err => {
-  //     console.log('error in request', err);
-  //   });
-  //   console.log(url)
-  // }
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
+    }
+  }
 
   return (
     <>
@@ -58,7 +56,6 @@ function HeroSection() {
           your Video. Just give us the video.
         </p>
         
-        {/* --- */}
         <form onSubmit={handleSubmit} >
           <label
             htmlFor="file_input"
@@ -68,6 +65,7 @@ function HeroSection() {
           </label>
           <input
             type="file"
+            ref={fileInputRef}
             placeholder="Select the video"
             accept="video/*"
             onChange={handleChange}

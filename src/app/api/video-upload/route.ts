@@ -13,10 +13,10 @@ export async function POST(req: NextRequest) {
   await dbConnect();
   try {
     const res = await req.formData();
-    console.log(res)
     const videoUrl = res.get("url") as File;
-    console.log(videoUrl)
-    const {url} = await uploadOnCloudinary(videoUrl) as Response
+    const arrayBuffer = await videoUrl.arrayBuffer();
+    const buffer = Buffer.from(arrayBuffer);
+    const {url} = await uploadOnCloudinary(buffer) as Response
   
 
     const deepgram = createClient(process.env.DEEPGRAM_API_KEY!);
@@ -38,7 +38,8 @@ export async function POST(req: NextRequest) {
     // const para = result.results.channels[0].alternatives[0].paragraphs
     const text = result.results.channels[0].alternatives[0].transcript
     if (!error)
-      console.log(text)
+      // console.log(text)
+    
       // console.log(para)
 
 
