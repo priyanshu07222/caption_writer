@@ -8,9 +8,15 @@ const translator = new deepl.Translator(authKey);
 const supportedLangArray = ["ar", "bg", "cs", "da", "de","el", "en-GB","en-US", "es","et", "fi", "fr", "hu","id", "it", "ja","ko", "lt", "lv", "nb","nl",  "pl", "pt-Br","pt-PT", "ro", "ru", "sl", "sv", "tr", "uk", "zh"];
 
 export async function POST(req: NextRequest) {
-  const response = await req.formData();
-  const textToBeTranslated = response.get("text") as string;
-  const translatedIn = response.get("target_lang");
+  // const response = await req.formData();
+  // const textToBeTranslated = response.get("text") as string;
+  // const translatedIn = response.get("target_lang");
+
+  const response = await req.json()
+  const textToBeTranslated = response.text as string
+  const translatedIn = response.target_lang
+
+  console.log(textToBeTranslated, translatedIn)
 
   function isValidLanguageCode(
     code: any
