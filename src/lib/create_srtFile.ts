@@ -2,6 +2,8 @@ import fs from "fs";
 
 export const createSrtFile = async (content: string, videoLength: number) => {
 
+  console.log(typeof content, content, "lo kar diya")
+
   const convetToarrayOfPara = content.match(/.{1,30}(?:\s|$)/g);
 
   const timeGap: number = Math.floor(videoLength / convetToarrayOfPara?.length!);

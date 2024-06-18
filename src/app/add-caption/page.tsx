@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import translateText from "./translateText";
+import { createSrt } from "./createSrt";
 function addCaption() {
   const searchParams = useSearchParams();
   const url = searchParams.get("url");
@@ -23,12 +24,34 @@ function addCaption() {
     }
   }, [text]);
 
+  console.log("mmomy")
+
+  useEffect(() => {
+    console.log("moonby start")
+    if(translatedText){
+      console.log(translatedText,"moonby starting")
+      const fetchSrt = async () => {
+        try {
+          console.log("enter into srt file ")
+          const data = await createSrt(translatedText, 50)
+        } catch (error) {
+          console.log("error while fetching srt file")
+        }
+      }
+
+      fetchSrt()
+    }
+  }, [translatedText])
+
+  console.log("end")
+
   return (
     <div>
       {url && (
         <div>
           <h3 className="mb-4">Uploaded Video on cloudinary</h3>
-          {/* {text && <p>{text}</p>} */}
+          <p>{translatedText}</p>
+          {text && <p>{text}</p>}
           <video src={url} controls width="200" className="max-w-lg"></video>
         </div>
       )}
