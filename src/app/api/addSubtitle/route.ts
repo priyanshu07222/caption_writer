@@ -5,17 +5,22 @@ import ffmpeg from "fluent-ffmpeg";
 ffmpeg.setFfmpegPath('C:\\ffmpeg\\bin\\ffmpeg.exe')
 
 export async function POST(req: NextRequest) {
-  const videoUrl = await req.text()
+  console.log(req,"of resquest")
+  const op = await req.json()
+  const videoUrl = op.videoUrl
+  
+  console.log(op,"111")
+  console.log(videoUrl,"32")
 
   if(!videoUrl){
     return Response.json({
       message: "videoUrl not found"
     })
   }
-  console.log(videoUrl)
+  console.log(videoUrl,"22")
   try {
     await addSubtitlesToVideo(
-      "http://res.cloudinary.com/dptgkunzk/video/upload/v1718306671/ui5euapr8biargbotd5v.mp4",
+      videoUrl,
       "./public/srtfile/output.srt",
       "./public/videoWithSub/givemeewrd.mp4"
     );

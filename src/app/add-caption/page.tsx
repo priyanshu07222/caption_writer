@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import translateText from "./translateText";
 import { createSrt } from "./createSrt";
+import { subVideo } from "./subVideo";
 function addCaption() {
   const searchParams = useSearchParams();
   const url = searchParams.get("url");
@@ -24,37 +25,59 @@ function addCaption() {
     }
   }, [text]);
 
-  console.log("mmomy")
-
   useEffect(() => {
-    console.log("moonby start")
-    if(translatedText){
-      console.log(translatedText,"moonby starting")
+    if (translatedText) {
       const fetchSrt = async () => {
         try {
-          console.log("enter into srt file ")
-          const data = await createSrt(translatedText, 50)
+          const data = await createSrt(translatedText, 50);
         } catch (error) {
-          console.log("error while fetching srt file")
+          console.log("error while fetching srt file");
         }
-      }
+      };
 
-      fetchSrt()
+      fetchSrt();
     }
-  }, [translatedText])
+  }, [translatedText]);
 
-  console.log("end")
+  console.log("hree somewhere")
+
+  useEffect(() => {
+    console.log("yaha1")
+    if (url) {
+      console.log("yaha 2", url)
+      const fetchSubVideo = async () => {
+        console.log("yaha3")
+        try {
+          console.log("yaha4")
+          const res = await subVideo(url);
+          console.log("yaha5")
+        } catch (error) {
+          console.log("Error while fetch subvideo", error);
+        }
+      };
+      fetchSubVideo()
+    }
+  }, []);
 
   return (
-    <div>
+    <div className="flex justify-evenly container max-w-screen-xl mx-auto">
       {url && (
-        <div>
-          <h3 className="mb-4">Uploaded Video on cloudinary</h3>
-          <p>{translatedText}</p>
-          {text && <p>{text}</p>}
+        <div className="m-4">
+          <h3 className="mb-4 text-center">Before</h3>
+          {/* <p>{translatedText}</p>
+          {text && <p>{text}</p>} */}
           <video src={url} controls width="200" className="max-w-lg"></video>
         </div>
       )}
+      <div className="m-4">
+        <h3 className="mb-4 text-center">After</h3>
+        <video
+          src="/videoWithSub/givemeewrd.mp4"
+          controls
+          width="200"
+          className="max-w-lg m-4"
+        ></video>
+      </div>
     </div>
   );
 }

@@ -2,7 +2,6 @@
 import Image from "next/image";
 import { BackgroundBeams } from "@/components/ui/background-beams";
 import HeroSection from "@/components/HeroSection";
-import Check from "@/components/heelo"
 
 export default function Home() {
   return (
