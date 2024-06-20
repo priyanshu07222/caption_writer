@@ -11,8 +11,6 @@ function addCaption() {
   const videoLength = searchParams.get("videoLength");
   const [translatedText, setTranslatedText] = useState<string | null>(null);
 
-  console.log("vidoelenthhhhhhhh", videoLength);
-
   useEffect(() => {
     if (text) {
       const fetchTranslation = async () => {
@@ -42,8 +40,6 @@ function addCaption() {
     }
   }, [translatedText]);
 
-  console.log("hree somewhere");
-
   useEffect(() => {
     console.log("yaha1");
     if (url) {
@@ -67,8 +63,6 @@ function addCaption() {
       {url && (
         <div className="m-4">
           <h3 className="mb-4 text-center">Before</h3>
-          {/* <p>{translatedText}</p>
-          {text && <p>{text}</p>} */}
           <video src={url} controls width="200" className="max-w-lg"></video>
         </div>
       )}

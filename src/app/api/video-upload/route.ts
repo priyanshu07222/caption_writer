@@ -11,6 +11,10 @@ import { uploadOnCloudinary } from "@/lib/uploadVideo";
 
 export async function POST(req: NextRequest) {
   await dbConnect();
+  
+  // if(){
+    // fs.unlinkSync('D:\\Mernstackproject\\caption_writer\\public\\videoWithSub\\givemeewrd.mp4')
+  // }
   try {
     const res = await req.formData();
     const videoUrl = res.get("url") as File;

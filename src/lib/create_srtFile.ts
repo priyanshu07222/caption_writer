@@ -2,7 +2,7 @@ import fs from "fs";
 
 export const createSrtFile = async (content: string, videoLength: number) => {
 
-  console.log(typeof content, content, videoLength, "lo kar diya")
+  // console.log(typeof content, content, videoLength, "lo kar diya")
 
   const convetToarrayOfPara = content.match(/.{1,30}(?:\s|$)/g);
 
@@ -10,7 +10,6 @@ export const createSrtFile = async (content: string, videoLength: number) => {
 
   // Function to format seconds into SRT timestamp
   function formatTime(seconds: number) {
-
 
     const date = new Date(0);
     date.setSeconds(seconds);
@@ -33,7 +32,6 @@ export const createSrtFile = async (content: string, videoLength: number) => {
     fs.writeFile("public/srtfile/output.srt", srtContent, (err) => {
       if (err) throw err;
       console.log("The file has been saved! okk");
-      console.log(content);
     });
   }
 };

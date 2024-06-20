@@ -57,7 +57,7 @@ function HeroSection() {
 
   return (
     <>
-      <div className="h-[30rem] w-full rounded-md relative flex flex-col items-center antialiased">
+      <div className=" w-full rounded-md relative flex flex-col items-center antialiased">
         <div className="max-w-2xl mx-auto p-4">
           <h1 className="relative z-10 text-lg md:text-7xl  bg-clip-text text-transparent bg-gradient-to-b from-neutral-200 to-neutral-600  text-center font-sans font-bold">
             Add the Subtitle
@@ -95,22 +95,19 @@ function HeroSection() {
             </div>
           </form>
 
-          {url && (
-            <div className="m-4">
-              <h3 className="mb-4 text-center">Before</h3>
+          {videoUrlCloudinary && (
+            <div className="m-4 flex justify-between">
               <video
-                src={url}
+                src={videoUrlCloudinary}
                 controls
                 width="200"
                 className="max-w-lg"
               ></video>
 
-              <div className="flex justify-end relative">
+              <div className="flex justify-center items-center  relative ">
                 <button
-                  // type="submit"
                   onClick={() => callCaption()}
-                  // onSubmit={}
-                  className="bg-black relative z-10 border border-white rounded-full py-2 px-4 dark:bg-slate-900 text-gray-100 dark:text-white dark:border-slate-800 cursor-pointer"
+                  className="bg-black hover:bg-green-500 transition-all relative z-10 border border-white rounded-full py-2 px-4 dark:bg-slate-900 text-gray-100 dark:text-white dark:border-slate-800 cursor-pointer"
                 >
                   apply caption
                 </button>
