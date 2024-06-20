@@ -2,7 +2,7 @@ import fs from "fs";
 
 export const createSrtFile = async (content: string, videoLength: number) => {
 
-  console.log(typeof content, content, "lo kar diya")
+  console.log(typeof content, content, videoLength, "lo kar diya")
 
   const convetToarrayOfPara = content.match(/.{1,30}(?:\s|$)/g);
 
@@ -26,7 +26,7 @@ export const createSrtFile = async (content: string, videoLength: number) => {
         srtContent += `${index + 1}\n`;
         srtContent += `${formatTime(startTime)} --> ${formatTime(endTime)}\n`;
         srtContent += `${para.trim()}\n\n`;
-        startTime = endTime;
+        startTime = endTime + 0.5;
       });
 
     console.log("content file", srtContent)

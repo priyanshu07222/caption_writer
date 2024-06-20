@@ -8,6 +8,7 @@ import { useRouter } from "next/navigation";
 function HeroSection() {
   const [url, setUrl] = useState<string>("");
   const [text, setText] = useState<string>("");
+  const [videoDuration, setVideoDuration] = useState<number>()
   const [videoUrlCloudinary, setVideoUrlCloudinary] = useState<string>("");
   const fileInputRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
@@ -33,6 +34,7 @@ function HeroSection() {
       console.log("Response:", response.data);
       setVideoUrlCloudinary(response.data.url);
       setText(response.data.text);
+      setVideoDuration(response.data.videoDuration) ;
     } catch (error) {
       console.error("Error uploading file URL:", error);
     }
@@ -47,7 +49,8 @@ function HeroSection() {
     console.log("1", videoUrlCloudinary);
     const queryParams = new URLSearchParams({
       url: videoUrlCloudinary,
-      text: text
+      text: text,
+      videoLength: String(videoDuration) 
     });
     router.push(`/add-caption?${queryParams.toString()}`);
   };
@@ -90,21 +93,30 @@ function HeroSection() {
                 submit
               </button>
             </div>
-            
-
-            <div></div>
           </form>
 
-          <div className="flex justify-end relative">
-              <button
-                // type="submit"
-                onClick={() => callCaption()}
-                // onSubmit={}
-                className="bg-black relative z-10 border border-white rounded-full py-2 px-4 dark:bg-slate-900 text-gray-100 dark:text-white dark:border-slate-800 cursor-pointer"
-              >
-                apply caption
-              </button>
+          {url && (
+            <div className="m-4">
+              <h3 className="mb-4 text-center">Before</h3>
+              <video
+                src={url}
+                controls
+                width="200"
+                className="max-w-lg"
+              ></video>
+
+              <div className="flex justify-end relative">
+                <button
+                  // type="submit"
+                  onClick={() => callCaption()}
+                  // onSubmit={}
+                  className="bg-black relative z-10 border border-white rounded-full py-2 px-4 dark:bg-slate-900 text-gray-100 dark:text-white dark:border-slate-800 cursor-pointer"
+                >
+                  apply caption
+                </button>
+              </div>
             </div>
+          )}
         </div>
       </div>
     </>

@@ -16,7 +16,10 @@ export async function POST(req: NextRequest) {
     const videoUrl = res.get("url") as File;
     const arrayBuffer = await videoUrl.arrayBuffer();
     const buffer = Buffer.from(arrayBuffer);
-    const {url} = await uploadOnCloudinary(buffer) as Response
+    const cloudinaryResponse = await uploadOnCloudinary(buffer)  as { duration: number, url: string }
+    const url = cloudinaryResponse.url
+    const videoDuration = Math.ceil(cloudinaryResponse.duration)
+
   
 
     const deepgram = createClient(process.env.DEEPGRAM_API_KEY!);
@@ -46,7 +49,8 @@ export async function POST(req: NextRequest) {
     return Response.json({
       message: "successfully done hoga",
       text,
-      url
+      url,
+      videoDuration
     });
   } catch (error: any) {
     console.log("Error is happening", error);
