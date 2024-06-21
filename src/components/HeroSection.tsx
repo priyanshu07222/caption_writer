@@ -4,6 +4,7 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import axios from "axios";
 import addCaption from "@/app/add-caption/page";
 import { useRouter } from "next/navigation";
+import { FiCommand } from "react-icons/fi";
 
 function HeroSection() {
   const [url, setUrl] = useState<string>("");
@@ -11,7 +12,9 @@ function HeroSection() {
   const [videoDuration, setVideoDuration] = useState<number>();
   const [videoUrlCloudinary, setVideoUrlCloudinary] = useState<string>("");
   const [selectedLang, setSelectedLang] = useState<string>("");
+  const [isLoading, setIsLoading] = useState<boolean>(false)
   const fileInputRef = useRef<HTMLInputElement>(null);
+  
 
   const router = useRouter();
 
@@ -59,6 +62,7 @@ function HeroSection() {
   const handleSubmit = async (e: any) => {
     e.preventDefault();
     console.log("ye konsa url hai", url);
+    setIsLoading(true)
     try {
       const formData = new FormData();
       formData.append("url", url);
@@ -72,6 +76,7 @@ function HeroSection() {
       setVideoUrlCloudinary(response.data.url);
       setText(response.data.text);
       setVideoDuration(response.data.videoDuration);
+      setIsLoading(false)
     } catch (error) {
       console.error("Error uploading file URL:", error);
     }
@@ -132,6 +137,13 @@ function HeroSection() {
               </button>
             </div>
           </form>
+
+          {isLoading && (
+            <div className="flex flex-col gap-4 justify-center items-center h-24 mt-24">
+              <FiCommand className="rotate-180 h-20 w-20 animate-spin"/>
+              <p>Processing, please wait<span className="animate-ping transition-all ease-in-out font-extrabold text-xl" >...</span></p>
+            </div>
+          )}
 
           {videoUrlCloudinary && (
             <div className="m-4 flex justify-between">
