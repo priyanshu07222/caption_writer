@@ -129,9 +129,12 @@ function HeroSection() {
             />
 
             <div className="flex justify-end relative">
+              
               <button
                 type="submit"
-                className="bg-black relative z-10 border border-white rounded-full py-2 px-4 dark:bg-slate-900 text-gray-100 dark:text-white dark:border-slate-800 cursor-pointer active:bg-blue-700 active:text-xl "
+                className={`bg-black relative z-10 border border-white rounded-full py-2 px-4 dark:bg-slate-900 text-gray-100 dark:text-white dark:border-slate-800 ${url ? `cursor-pointer active:bg-blue-700 active:text-xl` : `cursor-not-allowed`  } ${isLoading ? `cursor-not-allowed active:bg-black active:text-base` :  `cursor-pointer`}  `}
+                disabled={!url || isLoading}
+                
               >
                 submit
               </button>
