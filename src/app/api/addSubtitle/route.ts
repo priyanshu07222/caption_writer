@@ -5,19 +5,18 @@ import ffmpeg from "fluent-ffmpeg";
 ffmpeg.setFfmpegPath('C:\\ffmpeg\\bin\\ffmpeg.exe')
 
 export async function POST(req: NextRequest) {
-  console.log(req,"of resquest")
   const op = await req.json()
   const videoUrl = op.videoUrl
   
-  console.log(op,"111")
-  console.log(videoUrl,"32")
+  // console.log(op,"111")
+  // console.log(videoUrl,"32")
 
   if(!videoUrl){
     return Response.json({
       message: "videoUrl not found"
     })
   }
-  console.log(videoUrl,"22")
+  // console.log(videoUrl,"22")
   try {
     await addSubtitlesToVideo(
       videoUrl,

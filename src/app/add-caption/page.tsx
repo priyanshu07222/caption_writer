@@ -9,13 +9,14 @@ function addCaption() {
   const url = searchParams.get("url");
   const text = searchParams.get("text") as string;
   const videoLength = searchParams.get("videoLength");
+  const selectedLang = searchParams.get("selectedLang");
   const [translatedText, setTranslatedText] = useState<string | null>(null);
 
   useEffect(() => {
     if (text) {
       const fetchTranslation = async () => {
         try {
-          const translation = await translateText(text, "cs");
+          const translation = await translateText(text, selectedLang || "en-US");
           setTranslatedText(translation);
         } catch (error) {
           console.error("Error translating text:", error);

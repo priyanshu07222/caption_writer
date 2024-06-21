@@ -8,10 +8,47 @@ import { useRouter } from "next/navigation";
 function HeroSection() {
   const [url, setUrl] = useState<string>("");
   const [text, setText] = useState<string>("");
-  const [videoDuration, setVideoDuration] = useState<number>()
+  const [videoDuration, setVideoDuration] = useState<number>();
   const [videoUrlCloudinary, setVideoUrlCloudinary] = useState<string>("");
+  const [selectedLang, setSelectedLang] = useState<string>("");
   const fileInputRef = useRef<HTMLInputElement>(null);
+
   const router = useRouter();
+
+  const supportedLangArray = [
+    { arabic: "ar" },
+    { bulgarian: "bg" },
+    { czech: "cs" },
+    { danish: "da" },
+    { german: "de" },
+    { greek: "el" },
+    { "english (UK)": "en-GB" },
+    { "english (US)": "en-US" },
+    { spanish: "es" },
+    { estonian: "et" },
+    { finnish: "fi" },
+    { french: "fr" },
+    { hungarian: "hu" },
+    { indonesian: "id" },
+    { italian: "it" },
+    { japanese: "ja" },
+    { korean: "ko" },
+    { lithuanian: "lt" },
+    { latvian: "lv" },
+    { norwegian: "nb" },
+    { dutch: "nl" },
+    { polish: "pl" },
+    { "portuguese (Brazil)": "pt-Br" },
+    { "portuguese (Portugal)": "pt-PT" },
+    { romanian: "ro" },
+    { russian: "ru" },
+    { slovenian: "sl" },
+    { swedish: "sv" },
+    { turkish: "tr" },
+    { ukrainian: "uk" },
+    { chinese: "zh" },
+  ];
+  
 
   const handleChange = (e: any) => {
     e.preventDefault();
@@ -34,7 +71,7 @@ function HeroSection() {
       console.log("Response:", response.data);
       setVideoUrlCloudinary(response.data.url);
       setText(response.data.text);
-      setVideoDuration(response.data.videoDuration) ;
+      setVideoDuration(response.data.videoDuration);
     } catch (error) {
       console.error("Error uploading file URL:", error);
     }
@@ -50,7 +87,8 @@ function HeroSection() {
     const queryParams = new URLSearchParams({
       url: videoUrlCloudinary,
       text: text,
-      videoLength: String(videoDuration) 
+      videoLength: String(videoDuration),
+      selectedLang: selectedLang
     });
     router.push(`/add-caption?${queryParams.toString()}`);
   };
@@ -88,7 +126,7 @@ function HeroSection() {
             <div className="flex justify-end relative">
               <button
                 type="submit"
-                className="bg-black relative z-10 border border-white rounded-full py-2 px-4 dark:bg-slate-900 text-gray-100 dark:text-white dark:border-slate-800 cursor-pointer"
+                className="bg-black relative z-10 border border-white rounded-full py-2 px-4 dark:bg-slate-900 text-gray-100 dark:text-white dark:border-slate-800 cursor-pointer active:bg-blue-700 active:text-xl "
               >
                 submit
               </button>
@@ -104,10 +142,28 @@ function HeroSection() {
                 className="max-w-lg"
               ></video>
 
-              <div className="flex justify-center items-center  relative ">
+              <div className="flex flex-col justify-center items-center  relative z-10 ">
+                <div className="flex flex-col gap-3">
+                  <label htmlFor="lang" className="text-md font-sans font-semibold">Select a language:</label>
+                  <select
+                    id="lang"
+                    value={selectedLang}
+                    onChange={(e) => {
+                      setSelectedLang(e.target.value);
+                    }}
+                    className=" p-2 rounded-full border-none outline-none bg-gray-600 text-white"
+                  >
+                    {supportedLangArray.map((lang, index) => (
+                      <option key={index} value={Object.values(lang)[0]}>
+                        {Object.keys(lang)[0]}
+                      </option>
+                    ))}
+                  </select>
+                  <p className="text-sm font-sans font-semibold">Selected language: {selectedLang}</p>
+                </div>
                 <button
                   onClick={() => callCaption()}
-                  className="bg-black hover:bg-green-500 transition-all relative z-10 border border-white rounded-full py-2 px-4 dark:bg-slate-900 text-gray-100 dark:text-white dark:border-slate-800 cursor-pointer"
+                  className="bg-black my-6 transition-all relative z-10 border border-white rounded-full py-2 px-4 dark:bg-slate-900 text-gray-100 dark:text-white dark:border-slate-800 cursor-pointer active:bg-blue-700 active:text-xl"
                 >
                   apply caption
                 </button>
