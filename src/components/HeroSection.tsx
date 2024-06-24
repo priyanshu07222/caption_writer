@@ -110,13 +110,12 @@ function HeroSection() {
 
   return (
     <>
-      <div className=" w-full rounded-md relative flex flex-col items-center antialiased">
-        <div className="max-w-2xl mx-auto p-4">
-          <h1 className="relative z-10 text-lg md:text-7xl  bg-clip-text text-transparent bg-gradient-to-b from-neutral-200 to-neutral-600  text-center font-sans font-bold">
+      <div className=" w-full rounded-md relative flex flex-col items-center  ">
+        <div className="w-full sm:max-w-2xl sm:mx-auto sm:p-2 px-2">
+          <h1 className="relative z-10 text-6xl sm:text-6xl sm:mb-8 lg:text-7xl  bg-clip-text text-transparent bg-gradient-to-b from-neutral-200 to-neutral-600  text-center font-sans font-bold">
             Add the Subtitle
           </h1>
-          <p></p>
-          <p className="text-neutral-500 max-w-lg mx-auto mt-4 mb-4 text-md text-center relative z-10">
+          <p className="text-neutral-500 w-full sm:max-w-lg mx-auto mt-12 mb-14 sm:mt-4 sm:mb-8 text-lg font-medium sm:text-md text-center relative z-10">
             Welcome to Caption.Og, the best subtile embedding software on the
             web. We provide reliable, scalable, and customizable subtile
             generation for your Video. Just give us the video.
@@ -125,7 +124,7 @@ function HeroSection() {
           <form onSubmit={handleSubmit}>
             <label
               htmlFor="file_input"
-              className="block mb-2 text-md font-medium text-gray-100"
+              className="block sm:mb-2 text-2xl sm:text-lg text-center sm:text-start mb-6 sm:text-md font-medium text-gray-100"
             >
               Upload video
             </label>
@@ -135,14 +134,14 @@ function HeroSection() {
               placeholder="Select the video"
               accept="video/*"
               onChange={handleChange}
-              className="block mb-2 p-2 cursor-pointer rounded-full border text-purple-500 border-neutral-800 focus:ring-2  w-full relative z-10 mt-2  bg-neutral-950  placeholder:text-neutral-700 file:bg-purple-600 file:rounded-full file:py-2 file:px-4 file:border-none file:text-gray-100 file:mr-32"
+              className="block mb-8 sm:mb-2 p-2 cursor-pointer rounded-full border text-purple-500 border-neutral-800 focus:ring-2  w-full relative z-10 mt-2  bg-neutral-950  placeholder:text-neutral-700 file:bg-purple-600 file:rounded-full file:py-2 file:px-4 file:border-none file:text-gray-100 file:mr-12 sm:file:mr-32"
             />
 
-            <div className="flex justify-end relative">
+            <div className="flex justify-center sm:justify-end relative">
               
               <button
                 type="submit"
-                className={`bg-black relative z-10 border border-white rounded-full py-2 px-4 dark:bg-slate-900 text-gray-100 dark:text-white dark:border-slate-800 ${url ? `cursor-pointer active:bg-blue-700 active:text-xl` : `cursor-no-drop`  } ${isLoading ? `cursor-not-allowed active:bg-black active:text-base` :  `cursor-pointer`}  `}
+                className={`bg-black relative z-10 border border-white rounded-full sm:py-2 py-4 px-8  sm:px-4 text-xl dark:bg-slate-900 text-gray-100 dark:text-white dark:border-slate-800 ${url ? `cursor-pointer active:bg-blue-700 active:text-xl` : `cursor-no-drop`  } ${isLoading ? `cursor-not-allowed active:bg-black active:text-base` :  `cursor-pointer`}  `}
                 disabled={!url || isLoading}
                 
               >
@@ -159,15 +158,15 @@ function HeroSection() {
           )}
 
           {videoUrlCloudinary && (
-            <div className="m-4 flex justify-between">
+            <div className="lg:m-4 sm:mt-10 flex flex-col  lg:flex-row my-8 justify-between">
               <video
                 src={videoUrlCloudinary}
                 controls
                 width="200"
-                className="max-w-lg"
+                className="max-w-lg bg-red-500 mx-auto"
               ></video>
 
-              <div className="flex flex-col justify-center items-center  relative z-10 ">
+              <div className="flex flex-col justify-center items-center  relative z-10 my-4 ">
                 <div className="flex flex-col gap-3">
                   <label htmlFor="lang" className="text-md font-sans font-semibold">Select a language:</label>
                   <select
