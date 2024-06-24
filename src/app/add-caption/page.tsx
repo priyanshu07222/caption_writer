@@ -6,7 +6,7 @@ import { createSrt } from "./createSrt";
 import { subVideo } from "./subVideo";
 import { FiCommand } from "react-icons/fi";
 
-function addCaption() {
+function AddCaption() {
   const searchParams = useSearchParams();
   const url = searchParams.get("url");
   const text = searchParams.get("text") as string;
@@ -89,4 +89,4 @@ function addCaption() {
   );
 }
 
-export default addCaption;
+export default AddCaption;
