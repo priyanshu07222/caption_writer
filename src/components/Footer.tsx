@@ -15,7 +15,7 @@ function Footer() {
             </ul>
         </div>
         <div className='bg-neutral-950 py-4'>
-            <p className='text-center'>Copyright <span>&#169;</span>2022, Design by Priyanshu</p>
+            <p className='text-center'>Copyright <span>&#169;</span>2024, Designed & Developed by Priyanshu</p>
         </div>
     </div>
   )

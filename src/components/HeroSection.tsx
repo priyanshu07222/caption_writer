@@ -12,8 +12,10 @@ function HeroSection() {
   const [videoDuration, setVideoDuration] = useState<number>();
   const [videoUrlCloudinary, setVideoUrlCloudinary] = useState<string>("");
   const [selectedLang, setSelectedLang] = useState<string>("");
+  const [error, setError] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const fileInputRef = useRef<HTMLInputElement>(null);
+
   
 
   const router = useRouter();
@@ -55,13 +57,23 @@ function HeroSection() {
 
   const handleChange = (e: any) => {
     e.preventDefault();
-    const file = e.target.files[0];
-    setUrl(file);
+    const file = e.target.files?.[0];
+    if (file) {
+      if (!file.type.startsWith('video/')) {
+        setError('Please select a valid video file.');
+        e.target.value = ''; // Clear the selected file
+        setUrl("");
+      } else {
+        setError('');
+        setUrl(file);
+        // Handle the video file upload here
+        console.log('Selected file:', file);
+      }
+    }
   };
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
-    console.log("ye konsa url hai", url);
     setIsLoading(true)
     try {
       const formData = new FormData();
@@ -72,7 +84,7 @@ function HeroSection() {
           "Content-Type": "multipart/form-data",
         },
       });
-      console.log("Response:", response.data);
+      // console.log("Response:", response.data);
       setVideoUrlCloudinary(response.data.url);
       setText(response.data.text);
       setVideoDuration(response.data.videoDuration);
@@ -87,8 +99,6 @@ function HeroSection() {
   };
 
   const callCaption = () => {
-    console.log("1", text);
-    console.log("1", videoUrlCloudinary);
     const queryParams = new URLSearchParams({
       url: videoUrlCloudinary,
       text: text,
@@ -132,7 +142,7 @@ function HeroSection() {
               
               <button
                 type="submit"
-                className={`bg-black relative z-10 border border-white rounded-full py-2 px-4 dark:bg-slate-900 text-gray-100 dark:text-white dark:border-slate-800 ${url ? `cursor-pointer active:bg-blue-700 active:text-xl` : `cursor-not-allowed`  } ${isLoading ? `cursor-not-allowed active:bg-black active:text-base` :  `cursor-pointer`}  `}
+                className={`bg-black relative z-10 border border-white rounded-full py-2 px-4 dark:bg-slate-900 text-gray-100 dark:text-white dark:border-slate-800 ${url ? `cursor-pointer active:bg-blue-700 active:text-xl` : `cursor-no-drop`  } ${isLoading ? `cursor-not-allowed active:bg-black active:text-base` :  `cursor-pointer`}  `}
                 disabled={!url || isLoading}
                 
               >
@@ -178,7 +188,8 @@ function HeroSection() {
                 </div>
                 <button
                   onClick={() => callCaption()}
-                  className="bg-black my-6 transition-all relative z-10 border border-white rounded-full py-2 px-4 dark:bg-slate-900 text-gray-100 dark:text-white dark:border-slate-800 cursor-pointer active:bg-blue-700 active:text-xl"
+                  className={`bg-black my-6 transition-all relative z-10 border border-white rounded-full py-2 px-4 dark:bg-slate-900 text-gray-100 dark:text-white dark:border-slate-800  ${selectedLang ? `cursor-pointer active:bg-blue-700 active:text-xl` : `cursor-not-allowed bg-black text-base`}`}
+                  disabled = {!selectedLang}
                 >
                   apply caption
                 </button>

@@ -4,6 +4,8 @@ import { useSearchParams } from "next/navigation";
 import translateText from "./translateText";
 import { createSrt } from "./createSrt";
 import { subVideo } from "./subVideo";
+import { FiCommand } from "react-icons/fi";
+
 function addCaption() {
   const searchParams = useSearchParams();
   const url = searchParams.get("url");
@@ -11,53 +13,42 @@ function addCaption() {
   const videoLength = searchParams.get("videoLength");
   const selectedLang = searchParams.get("selectedLang");
   const [translatedText, setTranslatedText] = useState<string | null>(null);
+  const [subVid, setSubVid] = useState<boolean>(false);
 
   useEffect(() => {
-    if (text) {
-      const fetchTranslation = async () => {
-        try {
-          const translation = await translateText(text, selectedLang || "en-US");
+    const processVideo = async () => {
+      try {
+        if (text) {
+          const translation = await translateText(
+            text,
+            selectedLang || "en-US"
+          );
           setTranslatedText(translation);
-        } catch (error) {
-          console.error("Error translating text:", error);
+          // console.log("Translation fetched");
+
+          // console.log("Creating SRT file");
+          const srtData = await createSrt(translation, Number(videoLength));
+          // console.log("SRT file created");
+
+          if (url) {
+            // console.log("Adding subtitles to video");
+            const subVidResponse = await subVideo(url);
+            // console.log("sub3", subVidResponse);
+            if (subVidResponse.message === "done") {
+              setSubVid(true);
+            }
+
+            // console.log("Subtitles added", subVidResponse);
+          }
         }
-      };
+      } catch (error) {
+        console.error("Error during processing", error);
+      }
+    };
 
-      fetchTranslation();
-    }
-  }, [text]);
-
-  useEffect(() => {
-    if (translatedText) {
-      const fetchSrt = async () => {
-        try {
-          const data = await createSrt(translatedText, Number(videoLength));
-        } catch (error) {
-          console.log("error while fetching srt file");
-        }
-      };
-
-      fetchSrt();
-    }
-  }, [translatedText]);
-
-  useEffect(() => {
-    console.log("yaha1");
-    if (url) {
-      console.log("yaha 2", url);
-      const fetchSubVideo = async () => {
-        console.log("yaha3");
-        try {
-          console.log("yaha4");
-          const res = await subVideo(url);
-          console.log("yaha5");
-        } catch (error) {
-          console.log("Error while fetch subvideo", error);
-        }
-      };
-      fetchSubVideo();
-    }
+    processVideo();
   }, []);
+
 
   return (
     <div className="flex justify-evenly container max-w-screen-xl mx-auto h-screen">
@@ -67,21 +58,33 @@ function addCaption() {
           <video src={url} controls width="200" className="max-w-lg"></video>
         </div>
       )}
-      <div className="m-4">
-        <h3 className="mb-4 text-center">After</h3>
-        <video
-          src="/videoWithSub/givemeewrd.mp4"
-          controls
-          width="200"
-          className="max-w-lg m-4"
-        ></video>
-        {/* ------ */}
-        <div>
-          <a href='/videoWithSub/givemeewrd.mp4' download="output-with-subtitles.mp4" className="bg-green-600 px-4 py-2 rounded-2xl ">
-            Download
-          </a>
+
+      {subVid ? (
+        <div className="m-4">
+          <h3 className="mb-4 text-center">After</h3>
+          <video
+            src="/videoWithSub/givemeewrd.mp4"
+            controls
+            width="200"
+            className="max-w-lg m-4"
+          ></video>
+          {/* ------ */}
+          <div>
+            <a
+              href="/videoWithSub/givemeewrd.mp4"
+              download="output-with-subtitles.mp4"
+              className="bg-green-600 px-4 py-2 rounded-2xl "
+            >
+              Download
+            </a>
+          </div>
         </div>
-      </div>
+      ) : (
+        <div className="flex flex-col items-center pt-36 gap-6 ">
+          <p className="font-semibold text-xl">Processing, Please wait</p>
+          <span><FiCommand className="rotate-180 h-16 w-16 animate-spin"/></span>
+        </div>
+      )}
     </div>
   );
 }
