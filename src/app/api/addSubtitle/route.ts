@@ -29,16 +29,23 @@ export async function POST(req: NextRequest) {
   isProcessing = true;
   // console.log(videoUrl,"22")
   try {
+    console.log("dahr")
     await addSubtitlesToVideo(
       videoUrl,
       "./public/srtfile/output.srt",
       "./public/videoWithSub/givemeewrd.mp4"
     );
 
+    console.log("dahr22")
+
     await confirmFileWritten("./public/videoWithSub/givemeewrd.mp4");
     console.log("done")
   } catch (error) {
-    console.log("Something went wrong while adding subtitle");
+    isProcessing = false;
+    console.error("Something went wrong while adding subtitle", error);
+    return Response.json({
+      error: "Something went wrong while adding subtitle",
+    });
   } finally {
     isProcessing = false
   }
